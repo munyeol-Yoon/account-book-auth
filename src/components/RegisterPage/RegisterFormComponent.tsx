@@ -41,7 +41,7 @@ function RegisterFormComponent() {
         return;
       }
 
-      const response = await api.auth.signUp({
+      await api.auth.signUp({
         id: registerId,
         password,
         nickname,
