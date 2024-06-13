@@ -34,7 +34,12 @@ function Header() {
     getUser();
   }, []);
 
-  // TODO 로그아웃 만들어야함
+  // TODO 토큰이 없는 상태에서 메인페이지 접근시 잠깐 메인페이지가 보여지는 문제 해결해야함
+  const handleOnClickLogout = () => {
+    localStorage.removeItem("accessToken");
+    navigate("/login");
+  };
+
   return (
     <StHeaderNav>
       <StHeaderDivLink>
@@ -46,7 +51,9 @@ function Header() {
       <StHeaderDivLink>
         <StHeaderImage src={user.avatar} alt={user.avatar} />
         <StHeaderSpan>{user.nickname}</StHeaderSpan>
-        <StHeaderLogoutButton>로그아웃</StHeaderLogoutButton>
+        <StHeaderLogoutButton onClick={handleOnClickLogout}>
+          로그아웃
+        </StHeaderLogoutButton>
       </StHeaderDivLink>
     </StHeaderNav>
   );
