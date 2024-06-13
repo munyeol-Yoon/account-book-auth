@@ -30,7 +30,7 @@ export type AuthCheckResType = {
 };
 
 export type ProfileDataType = {
-  imgFile: string;
+  imgFile: string | Blob | null;
   nickname: string;
 };
 

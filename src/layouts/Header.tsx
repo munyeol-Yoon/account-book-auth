@@ -1,13 +1,21 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
 import api from "../api/api";
 import { setUser } from "../redux/slices/user.slice";
+import { RootState } from "../redux/store";
+import {
+  StHeaderDivLink,
+  StHeaderDivLinkA,
+  StHeaderImage,
+  StHeaderLogoutButton,
+  StHeaderNav,
+  StHeaderSpan,
+} from "./HeaderStyle";
 
 function Header() {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.user);
+  const user: any = useSelector<RootState>((state) => state.user.user);
 
   const navigate = useNavigate();
 
@@ -25,7 +33,7 @@ function Header() {
         dispatch(setUser(response));
       } catch (err) {
         console.error(err);
-        if (err.response.status === 401) {
+        if ((err as any).response.status === 401) {
           navigate("/login");
         }
       }
@@ -60,50 +68,3 @@ function Header() {
 }
 
 export default Header;
-
-const StHeaderNav = styled.nav`
-  background-color: rgb(51, 51, 51);
-  color: white;
-  padding: 10px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: fixed;
-  top: 0px;
-  z-index: 1000;
-  max-width: 760px;
-  width: 100%;
-  border-radius: 10px;
-`;
-const StHeaderDivLink = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const StHeaderDivLinkA = styled.a`
-  color: white;
-  margin: 0px 10px;
-  text-decoration: none;
-  cursor: pointer;
-`;
-
-const StHeaderImage = styled.img`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  margin-right: 10px;
-`;
-
-const StHeaderSpan = styled.span`
-  color: white;
-  margin-right: 20px;
-`;
-
-const StHeaderLogoutButton = styled.button`
-  padding: 8px 12px;
-  background-color: rgb(255, 77, 77);
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-`;

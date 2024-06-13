@@ -1,12 +1,18 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
 import api from "../../api/api";
 import { setUser } from "../../redux/slices/user.slice";
+import { RootState } from "../../redux/store";
+import {
+  StProfileButton,
+  StProfileInput,
+  StProfileInputDivBox,
+  StProfileLabel,
+} from "./ProfileFormComponentStyle";
 
 function ProfileFormComponent() {
-  const user = useSelector((state) => state.user.user);
+  const user: any = useSelector<RootState>((state) => state.user.user);
   const dispatch = useDispatch();
   const token = localStorage.getItem("accessToken");
   const navigate = useNavigate();
@@ -14,13 +20,13 @@ function ProfileFormComponent() {
   const [nickname, setNickname] = useState(user.nickname);
   const [avatar, setAvatar] = useState(null);
 
-  const handleOnChangeNickname = (e) => {
+  const handleOnChangeNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
     const nickname = e.target.value;
     setNickname(nickname);
   };
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file: any = e.target.files ? e.target.files[0] : null;
     setAvatar(file);
   };
 
@@ -31,19 +37,22 @@ function ProfileFormComponent() {
         imgFile: avatar,
       };
 
-      const response = await api.auth.updateProfile(data, token);
+      if (token) {
+        const response = await api.auth.updateProfile(data, token);
+        dispatch(
+          setUser({
+            ...user,
+            nickname: response.nickname,
+            avatar: response.avatar,
+          })
+        );
+        navigate("/");
+      }
 
-      dispatch(
-        setUser({
-          ...user,
-          nickname: response.nickname,
-          avatar: response.avatar,
-        })
-      );
-      navigate("/");
+      throw new Error("Token is not Found");
     } catch (err) {
       console.error(err);
-      alert(err.response.data.message);
+      alert((err as any).response.data.message);
     }
   };
 
@@ -83,29 +92,3 @@ function ProfileFormComponent() {
 }
 
 export default ProfileFormComponent;
-
-const StProfileInputDivBox = styled.div`
-  margin-bottom: 15px;
-`;
-
-const StProfileLabel = styled.label`
-  display: block;
-  margin-bottom: 5px;
-`;
-
-const StProfileInput = styled.input`
-  width: 100%;
-  padding: 8px;
-  box-sizing: border-box;
-`;
-
-const StProfileButton = styled.button`
-  width: 100%;
-  padding: 10px;
-  background-color: rgb(0, 123, 255);
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-bottom: 10px;
-`;

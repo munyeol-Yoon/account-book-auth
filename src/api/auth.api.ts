@@ -1,7 +1,11 @@
 import { AxiosInstance } from "axios";
 import {
+  AuthCheckResType,
+  LoginUserResType,
   LoginUserType,
   ProfileDataType,
+  ProfileResType,
+  RegisterUserResType,
   RegisterUserType,
 } from "../types/user.type";
 
@@ -12,7 +16,7 @@ class AuthAPI {
     this.axios = axios;
   }
 
-  async signUp(data: RegisterUserType) {
+  async signUp(data: RegisterUserType): Promise<RegisterUserResType> {
     // POST
     // /register
     const path = "register";
@@ -22,7 +26,7 @@ class AuthAPI {
     return result;
   }
 
-  async login(data: LoginUserType) {
+  async login(data: LoginUserType): Promise<LoginUserResType> {
     // POST
     // /login
     const path = "login";
@@ -32,7 +36,7 @@ class AuthAPI {
     return result;
   }
 
-  async checkToken(accessToken: string) {
+  async checkToken(accessToken: string): Promise<AuthCheckResType> {
     // GET
     // /user
     const path = "/user";
@@ -48,11 +52,14 @@ class AuthAPI {
     return result;
   }
 
-  async updateProfile(data: ProfileDataType, accessToken: string) {
+  async updateProfile(
+    data: ProfileDataType,
+    accessToken: string
+  ): Promise<ProfileResType> {
     // PATCH
     // /profile
     const formData = new FormData();
-    formData.append("avatar", data.imgFile);
+    if (data.imgFile) formData.append("avatar", data.imgFile);
     formData.append("nickname", data.nickname);
 
     const path = "/profile";

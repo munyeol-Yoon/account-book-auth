@@ -1,9 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 
-const useFormInputs = (initialValue) => {
-  const [inputs, setInputs] = useState(initialValue);
+interface InputsType {
+  [key: string]: any;
+}
 
-  const dateRef = useRef(null);
+const useFormInputs = (initialValue: InputsType) => {
+  const [inputs, setInputs] = useState<InputsType>(initialValue);
+
+  const dateRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     if (dateRef.current && typeof dateRef.current.focus === "function") {
@@ -11,7 +15,7 @@ const useFormInputs = (initialValue) => {
     }
   }, [dateRef]);
 
-  const handleOnChange = (e) => {
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setInputs({
       ...inputs,
