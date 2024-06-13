@@ -1,6 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 function LoginFormComponent() {
+  const navigate = useNavigate();
+
   return (
     <>
       <h2>로그인</h2>
@@ -10,10 +13,12 @@ function LoginFormComponent() {
       </StLoginFormInputWrapper>
       <StLoginFormInputWrapper>
         <label htmlFor="password">비밀번호</label>
-        <input type="text" id="password" name="password" />
+        <input type="password" id="password" name="password" />
       </StLoginFormInputWrapper>
       <StLoginFormButton>로그인</StLoginFormButton>
-      <StLoginFormButton>회원가입</StLoginFormButton>
+      <StLoginFormButton onClick={() => navigate("/register")}>
+        회원가입
+      </StLoginFormButton>
     </>
   );
 }

@@ -17,7 +17,7 @@ class AuthAPI {
     // /register
     const path = "register";
     const response = await this.axios.post(path, data);
-    const result = response;
+    const result = response.data;
 
     return result;
   }
@@ -27,7 +27,7 @@ class AuthAPI {
     // /login
     const path = "login";
     const response = await this.axios.post(path, data);
-    const result = response;
+    const result = response.data;
 
     return result;
   }
@@ -43,7 +43,7 @@ class AuthAPI {
       },
     });
 
-    const result = response;
+    const result = response.data;
 
     return result;
   }
@@ -63,7 +63,7 @@ class AuthAPI {
       },
     });
 
-    const result = response;
+    const result = response.data;
 
     return result;
   }

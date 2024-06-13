@@ -3,11 +3,13 @@ import { useEffect, useRef, useState } from "react";
 const useFormInputs = (initialValue) => {
   const [inputs, setInputs] = useState(initialValue);
 
-  const dateRef = useRef("");
+  const dateRef = useRef(null);
 
   useEffect(() => {
-    dateRef.current.focus();
-  }, []);
+    if (dateRef.current && typeof dateRef.current.focus === "function") {
+      dateRef.current.focus();
+    }
+  }, [dateRef]);
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
