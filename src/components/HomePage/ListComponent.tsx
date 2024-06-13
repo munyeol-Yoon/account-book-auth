@@ -25,12 +25,13 @@ function ListComponent({
     data: accountBook,
     isLoading,
     isFetching,
+    isPending,
   } = useQuery({
     queryKey: ["accountBook"],
     queryFn: () => api.accountBook.getAccount(),
   });
 
-  if (!accountBook || isLoading || isFetching) {
+  if (!accountBook || isLoading || isFetching || isPending) {
     return <section>loading...</section>;
   }
 
@@ -43,7 +44,7 @@ function ListComponent({
       alert("다른 유저의 글을 변경 할 수 없습니다.");
       return;
     }
-    navigate(`/${element.accountId}`);
+    navigate(`/${element.id}`);
   };
 
   return (
@@ -52,7 +53,7 @@ function ListComponent({
         {sortedData.map((element) => (
           <div
             onClick={() => handleOnClickListItem(element)}
-            key={element.accountId}
+            key={element.id}
             style={{ textDecoration: "none" }}
           >
             <StListCardWrapper key={element.accountId}>

@@ -1,13 +1,10 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
+import api from "../../api/api";
 import useFormInputs from "../../hooks/useInputs";
-import {
-  deleteAccount,
-  updateAccount,
-} from "../../redux/slices/accountBook.slice";
-import { RootState } from "../../redux/store";
+import { deleteAccount } from "../../redux/slices/accountBook.slice";
 
 function DetailFormComponent() {
   const initialValue = {
@@ -17,62 +14,62 @@ function DetailFormComponent() {
     content: "",
   };
 
-  const accountBook = useSelector(
-    (state: RootState) => state.accountBook.accountBook
-  );
+  // const accountBook = useSelector(
+  //   (state: RootState) => state.accountBook.accountBook
+  // );
+  const queryClient = useQueryClient();
   const dispatch = useDispatch();
 
   const { inputs, dateRef, handleOnChange, setInputs } =
     useFormInputs(initialValue);
   const params = useParams<{ accountId: string }>();
+  const accountId = params.accountId;
   const navigate = useNavigate();
 
-  useEffect(() => {
-    handleDisplayInputValue();
-  }, [params, accountBook]);
+  console.log(accountId);
+
+  const { data: accountBook, isLoading } = useQuery({
+    queryKey: ["accountBook"],
+    queryFn: () => api.accountBook.findOneAccount(accountId),
+  });
+
+  if (isLoading || !accountBook) {
+    return <div>loading...</div>;
+  }
+  console.log(accountBook);
+
+  const { mutateAsync: updateAccount } = useMutation({
+    mutationFn: (data) => api.accountBook.updateAccount(data),
+  });
 
   const { date, item, amount, content } = inputs;
 
-  const handleFindOne = (param) => {
-    if (Array.isArray(accountBook)) {
-      return accountBook.find(
-        (item) => item.accountId.toString() === param.accountId.toString()
-      );
-    }
-    console.log("2" + accountBook);
-
-    return null;
-  };
-
-  const handleDisplayInputValue = () => {
-    const findItem = handleFindOne(params);
-    if (findItem) {
-      setInputs({
-        date: findItem.date,
-        item: findItem.item,
-        amount: findItem.amount,
-        content: findItem.content,
-      });
-    }
-  };
-
-  const handleUpdate = (e) => {
+  const handleUpdate = async (e) => {
     e.preventDefault();
-    if (!date || !item || !amount || !content) {
-      alert("빈칸은 허용되지 않습니다.");
-      return;
-    }
 
-    dispatch(
-      updateAccount({
-        accountId: params.accountId,
+    try {
+      if (!date || !item || !amount || !content) {
+        alert("빈칸은 허용되지 않습니다.");
+        return;
+      }
+
+      const newAccount = {
+        accountId,
         date,
         item,
         amount,
         content,
-      })
-    );
-    navigate("/");
+      };
+
+      console.log(accountId);
+
+      await updateAccount(newAccount);
+
+      navigate("/");
+    } catch (err) {
+      console.error(err);
+      alert("수정에 실패했습니다.");
+    }
   };
 
   const handleDelete = () => {

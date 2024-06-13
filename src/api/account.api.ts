@@ -15,6 +15,14 @@ class AccountAPI {
     return result;
   }
 
+  async findOneAccount(id) {
+    const path = `/${id}`;
+    const response = await this.axios.get(path);
+    const result = response.data;
+
+    return result;
+  }
+
   async createAccount(data) {
     const path = "/";
     const response = await this.axios.post(path, data);
@@ -23,8 +31,9 @@ class AccountAPI {
     return result;
   }
 
-  async updateAccount(data, id) {
-    const path = `/${id}`;
+  async updateAccount(data) {
+    console.log(data.accountId);
+    const path = `/${data.accountId}`;
     const response = await this.axios.patch(path, data);
     const result = response.data;
 
