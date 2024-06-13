@@ -1,13 +1,12 @@
+import { useMutation } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { v4 as uuid } from "uuid";
+import api from "../../api/api";
 import useFormInputs from "../../hooks/useInputs";
-import {
-  AccountEntry,
-  addAccountEntry,
-} from "../../redux/slices/accountBook.slice";
+import { AccountEntry } from "../../redux/slices/accountBook.slice";
 
 function FormComponent() {
   const initialValue: AccountEntry = {
@@ -17,14 +16,17 @@ function FormComponent() {
     content: "",
   };
 
-  const user = useSelector(state => state.user.user)
-  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.user);
   const { inputs, dateRef, handleOnChange, handleResetInputs } =
     useFormInputs(initialValue);
 
+  const { mutateAsync: createAccountBook } = useMutation({
+    mutationFn: (data) => api.accountBook.createAccount(data),
+  });
+
   const { date, item, amount, content } = inputs;
 
-  const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!date || !item || !amount || !content) {
       alert("빈칸은 허용되지 않습니다.");
@@ -43,7 +45,7 @@ function FormComponent() {
       createdAt,
     };
 
-    dispatch(addAccountEntry(newAccountBook));
+    await createAccountBook(newAccountBook);
     handleResetInputs();
   };
 

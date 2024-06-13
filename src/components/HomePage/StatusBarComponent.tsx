@@ -1,7 +1,7 @@
-import { useSelector } from "react-redux";
+import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
+import api from "../../api/api";
 import { AccountEntry } from "../../redux/slices/accountBook.slice";
-import { RootState } from "../../redux/store";
 
 /**
  * 1. 날짜에 맞는 데이터를 가져온다.
@@ -38,12 +38,20 @@ function StatusBarComponent({
   month: string;
   handleGetMonthData: (data: AccountEntry[], month: number) => AccountEntry[];
 }) {
-  const accountBook = useSelector((state: RootState) => state.accountBook);
+  const {
+    data: accountBook,
+    isLoading,
+    isFetching,
+  } = useQuery({
+    queryKey: ["accountBook"],
+    queryFn: () => api.accountBook.getAccount(),
+  });
 
-  const filteredMonthData = handleGetMonthData(
-    accountBook.accountBook,
-    ~~month[0]
-  );
+  if (!accountBook || isLoading || isFetching) {
+    return <section>loading...</section>;
+  }
+
+  const filteredMonthData = handleGetMonthData(accountBook, ~~month[0]);
 
   const totalAmount = handleCalculateMonthAmountTotalSum(filteredMonthData);
 

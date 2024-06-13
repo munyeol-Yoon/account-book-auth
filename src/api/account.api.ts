@@ -15,7 +15,13 @@ class AccountAPI {
     return result;
   }
 
-  async createAccount() {}
+  async createAccount(data) {
+    const path = "/";
+    const response = await this.axios.post(path, data);
+    const result = response.data;
+
+    return result;
+  }
 
   async updateAccount() {}
 
