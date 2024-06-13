@@ -38,7 +38,14 @@ function ListComponent({
             <StListCardWrapper key={element.accountId}>
               <StListCardSummary>
                 <span>{element.date}</span>
-                <span>{element.item + "-" + element.content}</span>
+                <span>
+                  {element.item +
+                    "-" +
+                    element.content +
+                    " (by " +
+                    element.userId +
+                    ")"}
+                </span>
               </StListCardSummary>
               <span>{element.amount}</span>
             </StListCardWrapper>

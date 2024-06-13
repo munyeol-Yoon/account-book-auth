@@ -1,11 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export interface AccountEntry {
+  userId: string;
   accountId: string;
   date: string;
   item: string;
   amount: string;
   content: string;
+  createdAt: Date;
 }
 
 interface AccountBookState {

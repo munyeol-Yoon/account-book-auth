@@ -1,5 +1,6 @@
+import dayjs from "dayjs";
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { v4 as uuid } from "uuid";
 import useFormInputs from "../../hooks/useInputs";
@@ -16,6 +17,7 @@ function FormComponent() {
     content: "",
   };
 
+  const user = useSelector(state => state.user.user)
   const dispatch = useDispatch();
   const { inputs, dateRef, handleOnChange, handleResetInputs } =
     useFormInputs(initialValue);
@@ -29,12 +31,16 @@ function FormComponent() {
       return;
     }
 
+    const createdAt = dayjs().format("YYYY-MM-DD");
+
     const newAccountBook = {
+      userId: user.id,
       accountId: uuid(),
       date,
       item,
       amount,
       content,
+      createdAt,
     };
 
     dispatch(addAccountEntry(newAccountBook));
