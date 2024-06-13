@@ -2,8 +2,8 @@ import axios, { AxiosInstance } from "axios";
 import AccountAPI from "./account.api";
 import AuthAPI from "./auth.api";
 
-const BASE_URL = `https://moneyfulpublicpolicy.co.kr`;
-const JSON_URL = `http://localhost:5001/accountBook`;
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+const JSON_URL = import.meta.env.VITE_JSON_URL;
 
 class API {
   private axiosAuth: AxiosInstance;

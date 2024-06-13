@@ -71,23 +71,23 @@
       "id": "f258"
     },
     {
-      "id": "6b44",
+      "id": "42dd",
       "userId": "flying",
-      "accountId": "6de20606-5f17-46a9-b20b-c3e4d4398a43",
+      "accountId": "fc851a00-080b-4f0b-99c7-8506910a57a0",
       "date": "2024-06-13",
       "item": "식비",
       "amount": "10000",
-      "content": "맘스터치",
+      "content": "슈퍼싸이버거",
       "createdAt": "2024-06-13"
     },
     {
-      "id": "93f3",
+      "id": "06ae",
       "userId": "flying",
-      "accountId": "1f28a375-8c14-4b22-a412-81d5fd46f7c0",
-      "date": "2024-06-13",
-      "item": "식비",
-      "amount": "1000",
-      "content": "삼각김밥",
+      "accountId": "3291c0a3-b244-427d-a04e-4dd5fa5402bc",
+      "date": "2024-04-12",
+      "item": "도서",
+      "amount": "38000",
+      "content": "개발자를 위한 레디스",
       "createdAt": "2024-06-13"
     }
   ]
