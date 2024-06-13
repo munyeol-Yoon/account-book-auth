@@ -23,9 +23,21 @@ class AccountAPI {
     return result;
   }
 
-  async updateAccount() {}
+  async updateAccount(data, id) {
+    const path = `/${id}`;
+    const response = await this.axios.patch(path, data);
+    const result = response.data;
 
-  async deleteAccount() {}
+    return result;
+  }
+
+  async deleteAccount(id) {
+    const path = `/${id}`;
+    const response = await this.axios.delete(path);
+    const result = response.data;
+
+    return result;
+  }
 }
 
 export default AccountAPI;
