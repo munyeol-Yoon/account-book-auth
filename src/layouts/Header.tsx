@@ -45,7 +45,7 @@ function Header() {
       </StHeaderDivLink>
       <StHeaderDivLink>
         <StHeaderImage src={user.avatar} alt={user.avatar} />
-        <StHeaderSpan>{user.id}</StHeaderSpan>
+        <StHeaderSpan>{user.nickname}</StHeaderSpan>
         <StHeaderLogoutButton>로그아웃</StHeaderLogoutButton>
       </StHeaderDivLink>
     </StHeaderNav>
