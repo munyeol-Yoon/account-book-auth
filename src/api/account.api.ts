@@ -1,5 +1,5 @@
 import { AxiosInstance } from "axios";
-import { AccountDataType } from "../types/account.type";
+import { AccountDataType, AccountJSONDataType } from "../types/account.type";
 
 class AccountAPI {
   private axios;
@@ -32,9 +32,9 @@ class AccountAPI {
     return result;
   }
 
-  async updateAccount(data: AccountDataType) {
-    console.log(data.accountId);
-    const path = `/${data.accountId}`;
+  async updateAccount(data: AccountJSONDataType) {
+    console.log(data.id);
+    const path = `/${data.id}`;
     const response = await this.axios.patch(path, data);
     const result = response.data;
 

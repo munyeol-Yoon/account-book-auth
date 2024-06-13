@@ -23,5 +23,5 @@ export type AccountJSONDataType = {
   amount: number;
   content: string;
   createdAt: string;
-  id: string;
+  id?: string;
 };
