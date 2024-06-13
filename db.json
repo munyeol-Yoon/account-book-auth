@@ -89,16 +89,6 @@
       "amount": "1000",
       "content": "삼각김밥",
       "createdAt": "2024-06-13"
-    },
-    {
-      "id": "7991",
-      "userId": "flying",
-      "accountId": "7991",
-      "date": "2024-01-01",
-      "item": "계곡가따와쏘요",
-      "amount": "10000",
-      "content": "돈 많이 안씀",
-      "createdAt": "2024-06-13"
     }
   ]
 }

@@ -1,10 +1,8 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useDispatch } from "react-redux";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import api from "../../api/api";
 import useFormInputs from "../../hooks/useInputs";
-import { deleteAccount } from "../../redux/slices/accountBook.slice";
 
 function DetailFormComponent() {
   const initialValue = {
@@ -14,19 +12,10 @@ function DetailFormComponent() {
     content: "",
   };
 
-  // const accountBook = useSelector(
-  //   (state: RootState) => state.accountBook.accountBook
-  // );
-  const queryClient = useQueryClient();
-  const dispatch = useDispatch();
-
-  const { inputs, dateRef, handleOnChange, setInputs } =
-    useFormInputs(initialValue);
+  const { inputs, dateRef, handleOnChange } = useFormInputs(initialValue);
   const params = useParams<{ accountId: string }>();
   const accountId = params.accountId;
   const navigate = useNavigate();
-
-  console.log(accountId);
 
   const { data: accountBook, isLoading } = useQuery({
     queryKey: ["accountBook"],
@@ -40,6 +29,10 @@ function DetailFormComponent() {
 
   const { mutateAsync: updateAccount } = useMutation({
     mutationFn: (data) => api.accountBook.updateAccount(data),
+  });
+
+  const { mutateAsync: deleteAccount } = useMutation({
+    mutationFn: (id) => api.accountBook.deleteAccount(id),
   });
 
   const { date, item, amount, content } = inputs;
@@ -61,8 +54,6 @@ function DetailFormComponent() {
         content,
       };
 
-      console.log(accountId);
-
       await updateAccount(newAccount);
 
       navigate("/");
@@ -72,12 +63,17 @@ function DetailFormComponent() {
     }
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     const isDelete = confirm("정말로 이 지출 할목을 삭제하시겠습니까?");
     if (!isDelete) return;
 
-    dispatch(deleteAccount(params.accountId));
-    navigate("/");
+    try {
+      await deleteAccount(accountId);
+      navigate("/");
+    } catch (err) {
+      console.error(err);
+      alert("삭제에 실패했습니다.");
+    }
   };
 
   const handleGoBack = () => {
