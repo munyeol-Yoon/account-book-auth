@@ -74,6 +74,7 @@ const StHeaderDivLinkA = styled.a`
   color: white;
   margin: 0px 10px;
   text-decoration: none;
+  cursor: pointer;
 `;
 
 const StHeaderImage = styled.img`
