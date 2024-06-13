@@ -2,32 +2,41 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import React from "react";
 import { useSelector } from "react-redux";
-import styled from "styled-components";
 import { v4 as uuid } from "uuid";
 import api from "../../api/api";
 import useFormInputs from "../../hooks/useInputs";
-import { AccountEntry } from "../../redux/slices/accountBook.slice";
+import { RootState } from "../../redux/store.ts";
+import { AccountDataType, AccountInputType } from "../../types/account.type.ts";
+import { StButton, StForm, StInputDiv } from "./FormComponentStyle.ts";
 
 function FormComponent() {
-  const initialValue: AccountEntry = {
+  const initialValue: AccountInputType = {
     date: "",
     item: "",
     amount: "",
     content: "",
   };
 
-  const user = useSelector((state) => state.user.user);
+  const user: any = useSelector<RootState>((state) => state.user.user);
+  console.log(user);
   const { inputs, dateRef, handleOnChange, handleResetInputs } =
     useFormInputs(initialValue);
 
   const queryClient = useQueryClient();
 
-  const { mutateAsync: createAccountBook } = useMutation({
+  const { mutateAsync: createAccountBook } = useMutation<
+    AccountDataType,
+    Error,
+    AccountDataType
+  >({
     mutationFn: (data) => api.accountBook.createAccount(data),
     onSuccess: (data) => {
-      queryClient.setQueryData(["accountBook"], (prevData) => {
-        return prevData ? [...prevData, data] : [data];
-      });
+      queryClient.setQueryData<AccountDataType[] | undefined>(
+        ["accountBook"],
+        (prevData) => {
+          return prevData ? [...prevData, data] : [data];
+        }
+      );
     },
   });
 
@@ -42,7 +51,7 @@ function FormComponent() {
 
     const createdAt = dayjs().format("YYYY-MM-DD");
 
-    const newAccountBook = {
+    const newAccountBook: AccountDataType = {
       userId: user.id,
       accountId: uuid(),
       date,
@@ -105,44 +114,5 @@ function FormComponent() {
     </section>
   );
 }
-
-const StForm = styled.form`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  align-items: flex-end;
-`;
-
-const StInputDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1 1 0%;
-  min-width: 120px;
-
-  & > label {
-    margin-bottom: 5px;
-    font-size: 14px;
-    color: rgb(51, 51, 51);
-    text-align: left;
-  }
-
-  & > input {
-    padding: 8px;
-    border-radius: 4px;
-    border: 1px solid rgb(221, 221, 221);
-  }
-`;
-
-const StButton = styled.button`
-  padding: 8px 20px;
-  height: 33px;
-  margin-top: 10px;
-  background-color: rgb(0, 123, 255);
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 14px;
-  cursor: pointer;
-`;
 
 export default React.memo(FormComponent);

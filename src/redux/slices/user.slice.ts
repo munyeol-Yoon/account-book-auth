@@ -1,7 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-  user: {},
+export interface UserType {
+  user: {
+    id: string;
+    nickname: string;
+    avatar: string;
+    success: boolean;
+  };
+}
+
+const initialState: UserType = {
+  user: {
+    id: "",
+    nickname: "",
+    avatar: "",
+    success: true,
+  },
 };
 
 const userSlice = createSlice({

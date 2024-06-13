@@ -1,12 +1,9 @@
-import DetailFormComponent from "../../components/DetailPage/DetailFormComponent";
+import DetailFormComponent from "../../components/DetailPage/DetailFormComponent.tsx";
 
-function DetailPage({ accountBook, setAccountBook }) {
+function DetailPage() {
   return (
     <>
-      <DetailFormComponent
-        accountBook={accountBook}
-        setAccountBook={setAccountBook}
-      />
+      <DetailFormComponent />
     </>
   );
 }

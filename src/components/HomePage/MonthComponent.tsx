@@ -1,8 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
-import styled from "styled-components";
-import { setSelectedMonth } from "../../redux/slices/month.slice";
+import { setSelectedMonth } from "../../redux/slices/month.slice.ts";
+import { RootState } from "../../redux/store";
+import { StMonthButton, StMonthWrapper } from "./MonthComponentStyle";
 
-const months = [
+const months: string[] = [
   "1월",
   "2월",
   "3월",
@@ -18,8 +19,10 @@ const months = [
 ];
 function MonthComponent() {
   const dispatch = useDispatch();
-  const selectedMonth = useSelector((state) => state.month.selectedMonth);
-  const handleMonthOnClick = (selected) => {
+  const selectedMonth = useSelector(
+    (state: RootState) => state.month.selectedMonth
+  );
+  const handleMonthOnClick = (selected: string) => {
     dispatch(setSelectedMonth(selected));
   };
 
@@ -40,38 +43,5 @@ function MonthComponent() {
     </section>
   );
 }
-
-const StMonthWrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
-`;
-
-const StMonthButton = styled.button`
-  text-align: center;
-  font-family: Pretendard, serif;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  display: flex;
-  height: 60px;
-  padding: 20px;
-  width: 104px;
-  justify-content: center;
-  align-items: center;
-  flex-shrink: 0;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  background-color: ${(props) => (props.selected ? "#2ec4b6" : "#f6f7fa")};
-  color: ${(props) => (props.selected ? "#fff" : "black")};
-
-  &:hover {
-    color: #fff;
-    background-color: #2ec4b6;
-  }
-`;
 
 export default MonthComponent;
