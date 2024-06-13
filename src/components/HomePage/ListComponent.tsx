@@ -35,7 +35,7 @@ function ListComponent({
     return <section>loading...</section>;
   }
 
-  const filteredMonthData = handleGetMonthData(accountBook, ~~month[0]);
+  const filteredMonthData = handleGetMonthData(accountBook, parseInt(month));
 
   const sortedData = handleSortedDateAscData(filteredMonthData);
 

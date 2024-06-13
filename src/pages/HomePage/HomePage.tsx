@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useSelector } from "react-redux";
 import FormComponent from "../../components/HomePage/FormComponent";
 import ListComponent from "../../components/HomePage/ListComponent";
@@ -9,7 +8,6 @@ import { RootState } from "../../redux/store";
 
 function HomePage() {
   const { selectedMonth } = useSelector((state: RootState) => state.month);
-  const [month, setMonth] = useState<string>(selectedMonth ?? "1월");
 
   const handleGetMonthData = (data: AccountEntry[], month = 2) => {
     return data.filter((element) => {
@@ -21,12 +19,15 @@ function HomePage() {
   return (
     <>
       <FormComponent />
-      <MonthComponent setMonth={setMonth} />
+      <MonthComponent />
       <StatusBarComponent
-        month={month}
+        month={selectedMonth}
         handleGetMonthData={handleGetMonthData}
       />
-      <ListComponent month={month} handleGetMonthData={handleGetMonthData} />
+      <ListComponent
+        month={selectedMonth}
+        handleGetMonthData={handleGetMonthData}
+      />
     </>
   );
 }
