@@ -12,8 +12,7 @@ function RegisterFormComponent() {
 
   const navigate = useNavigate();
 
-  const { inputs, handleOnChange, handleResetInputs, setInputs } =
-    useFormInputs(initialValue);
+  const { inputs, handleOnChange } = useFormInputs(initialValue);
 
   const { registerId, password, nickname } = inputs;
 
@@ -65,6 +64,7 @@ function RegisterFormComponent() {
           id="registerId"
           name="registerId"
           onChange={handleOnChange}
+          value={registerId}
         />
       </StRegisterFormInputWrapper>
       <StRegisterFormInputWrapper>
@@ -74,6 +74,7 @@ function RegisterFormComponent() {
           id="password"
           name="password"
           onChange={handleOnChange}
+          value={password}
         />
       </StRegisterFormInputWrapper>
       <StRegisterFormInputWrapper>
@@ -83,6 +84,7 @@ function RegisterFormComponent() {
           id="nickname"
           name="nickname"
           onChange={handleOnChange}
+          value={nickname}
         />
       </StRegisterFormInputWrapper>
       <StRegisterFormButton onClick={handleOnClickSignUp}>
