@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from "axios";
-import AccountAPI from "./account.api";
-import AuthAPI from "./auth.api";
+import AccountAPI from "./account.api.ts";
+import AuthAPI from "./auth.api.ts";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const JSON_URL = import.meta.env.VITE_JSON_URL;

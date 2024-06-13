@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import api from "../../api/api";
 import useFormInputs from "../../hooks/useInputs";
+import { AccountDataType } from "../../types/account.type";
 
 function DetailFormComponent() {
   const initialValue = {
@@ -14,30 +15,33 @@ function DetailFormComponent() {
 
   const { inputs, dateRef, handleOnChange } = useFormInputs(initialValue);
   const params = useParams<{ accountId: string }>();
-  const accountId = params.accountId;
+  const accountId = params.accountId ?? "";
   const navigate = useNavigate();
 
-  const { data: accountBook, isLoading } = useQuery({
+  const { data: accountBook, isLoading } = useQuery<AccountDataType>({
     queryKey: ["accountBook"],
     queryFn: () => api.accountBook.findOneAccount(accountId),
+  });
+
+  const { mutateAsync: updateAccount } = useMutation<
+    unknown,
+    Error,
+    AccountDataType
+  >({
+    mutationFn: (data: AccountDataType) => api.accountBook.updateAccount(data),
+  });
+
+  const { mutateAsync: deleteAccount } = useMutation<unknown, Error, string>({
+    mutationFn: (id) => api.accountBook.deleteAccount(id),
   });
 
   if (isLoading || !accountBook) {
     return <div>loading...</div>;
   }
-  console.log(accountBook);
-
-  const { mutateAsync: updateAccount } = useMutation({
-    mutationFn: (data) => api.accountBook.updateAccount(data),
-  });
-
-  const { mutateAsync: deleteAccount } = useMutation({
-    mutationFn: (id) => api.accountBook.deleteAccount(id),
-  });
 
   const { date, item, amount, content } = inputs;
 
-  const handleUpdate = async (e) => {
+  const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
@@ -46,8 +50,8 @@ function DetailFormComponent() {
         return;
       }
 
-      const newAccount = {
-        accountId,
+      const newAccount: AccountDataType = {
+        ...accountBook,
         date,
         item,
         amount,
