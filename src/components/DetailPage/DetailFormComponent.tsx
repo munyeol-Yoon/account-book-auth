@@ -138,7 +138,7 @@ function DetailFormComponent() {
 
 const StDetailFormWrapper = styled.form`
   background-color: white;
-  max-width: 800px;
+  max-width: 760px;
   width: 100%;
   margin: 0 auto;
   padding: 20px;
