@@ -25,8 +25,6 @@ function LoginFormComponent() {
         password,
       });
 
-      console.log(response);
-
       localStorage.setItem("accessToken", response.accessToken);
 
       alert("로그인 완료.");

@@ -33,7 +33,6 @@ class AccountAPI {
   }
 
   async updateAccount(data: AccountJSONDataType) {
-    console.log(data.id);
     const path = `/${data.id}`;
     const response = await this.axios.patch(path, data);
     const result = response.data;

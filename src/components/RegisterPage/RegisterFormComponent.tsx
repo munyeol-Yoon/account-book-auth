@@ -47,8 +47,6 @@ function RegisterFormComponent() {
         nickname,
       });
 
-      console.log(response);
-
       alert("회원가입 완료");
       navigate("/login");
     } catch (err) {

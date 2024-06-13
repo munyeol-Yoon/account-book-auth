@@ -18,7 +18,6 @@ function FormComponent() {
   };
 
   const user: any = useSelector<RootState>((state) => state.user.user);
-  console.log(user);
   const { inputs, dateRef, handleOnChange, handleResetInputs } =
     useFormInputs(initialValue);
 
