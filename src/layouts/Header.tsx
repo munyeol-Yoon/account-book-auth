@@ -1,15 +1,48 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import api from "../api/api";
 
 function Header() {
+  const [user, setUser] = useState({});
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        const token = localStorage.getItem("accessToken");
+        if (!token) {
+          navigate("/login");
+          return;
+        }
+
+        const response = await api.auth.checkToken(token);
+
+        setUser(response);
+      } catch (err) {
+        console.error(err);
+        if (err.response.status === 401) {
+          navigate("/login");
+        }
+      }
+    };
+
+    getUser();
+  }, []);
+
+  // TODO 로그아웃 만들어야함
   return (
     <StHeaderNav>
       <StHeaderDivLink>
-        <StHeaderDivLinkA>HOME</StHeaderDivLinkA>
-        <StHeaderDivLinkA>내 프로필</StHeaderDivLinkA>
+        <StHeaderDivLinkA onClick={() => navigate("/")}>HOME</StHeaderDivLinkA>
+        <StHeaderDivLinkA onClick={() => navigate("/profile")}>
+          내 프로필
+        </StHeaderDivLinkA>
       </StHeaderDivLink>
       <StHeaderDivLink>
-        <StHeaderImage src="" alt="" />
-        <StHeaderSpan>유저 아이디</StHeaderSpan>
+        <StHeaderImage src={user.avatar} alt={user.avatar} />
+        <StHeaderSpan>{user.id}</StHeaderSpan>
         <StHeaderLogoutButton>로그아웃</StHeaderLogoutButton>
       </StHeaderDivLink>
     </StHeaderNav>
