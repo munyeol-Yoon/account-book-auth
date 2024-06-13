@@ -32,7 +32,6 @@ function ProfileFormComponent() {
       };
 
       const response = await api.auth.updateProfile(data, token);
-      console.log(response);
 
       dispatch(
         setUser({
@@ -44,6 +43,7 @@ function ProfileFormComponent() {
       navigate("/");
     } catch (err) {
       console.error(err);
+      alert(err.response.data.message);
     }
   };
 
