@@ -20,7 +20,6 @@ function ListComponent({
 }) {
   const user = useSelector((state) => state.user.user);
   const navigate = useNavigate();
-  console.log(user.id);
 
   const {
     data: accountBook,
@@ -34,8 +33,6 @@ function ListComponent({
   if (!accountBook || isLoading || isFetching) {
     return <section>loading...</section>;
   }
-
-  console.log(accountBook);
 
   const filteredMonthData = handleGetMonthData(accountBook, ~~month[0]);
 

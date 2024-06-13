@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import React from "react";
 import { useSelector } from "react-redux";
@@ -20,8 +20,15 @@ function FormComponent() {
   const { inputs, dateRef, handleOnChange, handleResetInputs } =
     useFormInputs(initialValue);
 
+  const queryClient = useQueryClient();
+
   const { mutateAsync: createAccountBook } = useMutation({
     mutationFn: (data) => api.accountBook.createAccount(data),
+    onSuccess: (data) => {
+      queryClient.setQueryData(["accountBook"], (prevData) => {
+        return prevData ? [...prevData, data] : [data];
+      });
+    },
   });
 
   const { date, item, amount, content } = inputs;

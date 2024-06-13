@@ -71,63 +71,33 @@
       "id": "f258"
     },
     {
-      "id": "6661",
+      "id": "6b44",
       "userId": "flying",
-      "accountId": "02d431d0-9128-4502-9fa0-c1da25ac112f",
+      "accountId": "6de20606-5f17-46a9-b20b-c3e4d4398a43",
       "date": "2024-06-13",
-      "item": "test",
-      "amount": "11111",
-      "content": "test",
-      "createdAt": "2024-06-13"
-    },
-    {
-      "id": "3686",
-      "userId": "flying",
-      "accountId": "781919ce-8939-44f8-95a0-d7ecfb5db24d",
-      "date": "2024-06-13",
-      "item": "test2",
+      "item": "식비",
       "amount": "10000",
-      "content": "123",
+      "content": "맘스터치",
       "createdAt": "2024-06-13"
     },
     {
-      "id": "3ee2",
+      "id": "93f3",
       "userId": "flying",
-      "accountId": "e18b091a-dd14-4934-baa4-c4e92138c25a",
+      "accountId": "1f28a375-8c14-4b22-a412-81d5fd46f7c0",
       "date": "2024-06-13",
-      "item": "test3",
-      "amount": "111",
-      "content": "tqwsd",
+      "item": "식비",
+      "amount": "1000",
+      "content": "삼각김밥",
       "createdAt": "2024-06-13"
     },
     {
-      "id": "eab0",
+      "id": "7991",
       "userId": "flying",
-      "accountId": "65500ad1-9798-4fe3-82c9-8f7500d02b5f",
-      "date": "2024-06-13",
-      "item": "왜 늦게나오님",
-      "amount": "999",
-      "content": "qwe",
-      "createdAt": "2024-06-13"
-    },
-    {
-      "id": "9185",
-      "userId": "flying",
-      "accountId": "6103cce2-3ff8-4cd1-a31b-ae38fa2b262c",
-      "date": "2024-06-13",
-      "item": "거북이쓰기",
-      "amount": "10000",
-      "content": "느려느려",
-      "createdAt": "2024-06-13"
-    },
-    {
-      "id": "89ac",
-      "userId": "flying",
-      "accountId": "7cee0bb2-b3c0-4a51-b70a-7ccbd3122bdf",
-      "date": "2024-06-13",
-      "item": "음메음메",
-      "amount": "123",
-      "content": "ㅁㄴㅇ",
+      "accountId": "2e5925b7-d64a-438d-bd25-013177c73132",
+      "date": "2024-01-01",
+      "item": "여행",
+      "amount": "100000",
+      "content": "계곡갔다옴",
       "createdAt": "2024-06-13"
     }
   ]

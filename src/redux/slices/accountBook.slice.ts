@@ -14,8 +14,12 @@ interface AccountBookState {
   accountBook: AccountEntry[];
 }
 
+// const initialState: AccountBookState = {
+//   accountBook: JSON.parse(localStorage.getItem("accountBook") || "[]"),
+// };
+
 const initialState: AccountBookState = {
-  accountBook: JSON.parse(localStorage.getItem("accountBook") || "[]"),
+  accountBook: [],
 };
 
 const accountBookSlice = createSlice({
@@ -24,11 +28,11 @@ const accountBookSlice = createSlice({
   reducers: {
     setAccountBook: (state, action) => {
       state.accountBook = action.payload;
-      localStorage.setItem("accountBook", JSON.stringify(state.accountBook));
+      // localStorage.setItem("accountBook", JSON.stringify(state.accountBook));
     },
     addAccountEntry: (state, action) => {
       state.accountBook.push(action.payload);
-      localStorage.setItem("accountBook", JSON.stringify(state.accountBook));
+      // localStorage.setItem("accountBook", JSON.stringify(state.accountBook));
     },
     updateAccount: (state, action) => {
       const index = state.accountBook.findIndex(
