@@ -1,4 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../api/api";
 import useFormInputs from "../../hooks/useInputs";
@@ -19,8 +20,8 @@ function DetailFormComponent() {
     amount: "",
     content: "",
   };
-
-  const { inputs, dateRef, handleOnChange } = useFormInputs(initialValue);
+  const { inputs, dateRef, handleOnChange, setInputs } =
+    useFormInputs(initialValue);
   const params = useParams<{ accountId: string }>();
   const accountId = params.accountId ?? "";
   const navigate = useNavigate();
@@ -42,6 +43,18 @@ function DetailFormComponent() {
   const { mutateAsync: deleteAccount } = useMutation<unknown, Error, string>({
     mutationFn: (id) => api.accountBook.deleteAccount(id),
   });
+
+  useEffect(() => {
+    if (accountBook) {
+      setInputs({
+        ...inputs,
+        date: accountBook.date,
+        item: accountBook.item,
+        amount: accountBook.amount,
+        content: accountBook.content,
+      });
+    }
+  }, [accountBook, setInputs]);
 
   if (isLoading || !accountBook) {
     return <div>loading...</div>;
