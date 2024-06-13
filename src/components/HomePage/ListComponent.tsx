@@ -1,8 +1,9 @@
+import { useQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import api from "../../api/api";
 import { AccountEntry } from "../../redux/slices/accountBook.slice";
-import { RootState } from "../../redux/store";
 
 const handleSortedDateAscData = (data: AccountEntry[]) => {
   return data.sort(
@@ -17,21 +18,43 @@ function ListComponent({
   month: string;
   handleGetMonthData: (data: AccountEntry[], month: number) => AccountEntry[];
 }) {
-  const accountBook = useSelector((state: RootState) => state.accountBook);
+  const user = useSelector((state) => state.user.user);
+  const navigate = useNavigate();
+  console.log(user.id);
 
-  const filteredMonthData = handleGetMonthData(
-    accountBook.accountBook,
-    ~~month[0]
-  );
+  const {
+    data: accountBook,
+    isLoading,
+    isFetching,
+  } = useQuery({
+    queryKey: ["accountBook"],
+    queryFn: () => api.accountBook.getAccount(),
+  });
+
+  if (!accountBook || isLoading || isFetching) {
+    return <section>loading...</section>;
+  }
+
+  console.log(accountBook);
+
+  const filteredMonthData = handleGetMonthData(accountBook, ~~month[0]);
 
   const sortedData = handleSortedDateAscData(filteredMonthData);
+
+  const handleOnClickListItem = (element) => {
+    if (element.userId !== user.id) {
+      alert("다른 유저의 글을 변경 할 수 없습니다.");
+      return;
+    }
+    navigate(`/${element.accountId}`);
+  };
 
   return (
     <section>
       <StListWrapper>
         {sortedData.map((element) => (
-          <Link
-            to={`/${element.accountId}`}
+          <div
+            onClick={() => handleOnClickListItem(element)}
             key={element.accountId}
             style={{ textDecoration: "none" }}
           >
@@ -49,7 +72,7 @@ function ListComponent({
               </StListCardSummary>
               <span>{element.amount}</span>
             </StListCardWrapper>
-          </Link>
+          </div>
         ))}
       </StListWrapper>
     </section>
