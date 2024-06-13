@@ -1,10 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import api from "../api/api";
+import { setUser } from "../redux/slices/user.slice";
 
 function Header() {
-  const [user, setUser] = useState({});
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.user);
 
   const navigate = useNavigate();
 
@@ -19,7 +22,7 @@ function Header() {
 
         const response = await api.auth.checkToken(token);
 
-        setUser(response);
+        dispatch(setUser(response));
       } catch (err) {
         console.error(err);
         if (err.response.status === 401) {
